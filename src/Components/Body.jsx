@@ -24,10 +24,7 @@ const Body = () => {
   }
   useEffect(()=>{
     fetchUser();
-    if(userData){
-      navigate('/');
-    }
-  },[navigate]);
+  },[]);
   return (
     <div>
         <NavBar/>
