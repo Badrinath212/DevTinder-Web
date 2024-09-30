@@ -14,6 +14,7 @@ const Profile = () => {
   const [gender, setGender] = useState(userData?.gender);
   const [about, setAbout] = useState(userData?.about);
   const [photoUrl, setPhotUrl] = useState(userData?.photoUrl);
+  const [saveToast , setSaveToast] = useState(false);
   const dispatch = useDispatch();
 
   const handleSave = async () => {
@@ -23,6 +24,13 @@ const Profile = () => {
         {firstName, lastName, age, gender, photoUrl, about}, {withCredentials: true});
 
         dispatch(addUser(res.data.Data));
+        setSaveToast(true);
+        const timeoutId = setTimeout(()=>{
+          setSaveToast(false)
+        },3000);
+        () => {
+          clearTimeout(timeoutId);
+        }
     } catch(err) {
       console.error(err);
     }
@@ -99,6 +107,11 @@ const Profile = () => {
       <div className="ml-8 mt-20">
         <UserCard user={{firstName, lastName, age, gender, photoUrl, about}}/>
       </div>
+      {saveToast && <div className="toast toast-top toast-center">
+        <div className="alert alert-success">
+          <span>Profile updated successfully.</span>
+        </div>
+      </div>}
     </div>
   )
 }
