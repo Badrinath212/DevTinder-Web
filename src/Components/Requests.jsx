@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "../Utils/constants";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequestsData } from "../Utils/RequestsSlice";
+import { addRequestsData, removeRequest } from "../Utils/RequestsSlice";
 
 const Requests = () => {
   const dispatch = useDispatch();
@@ -13,6 +13,16 @@ const Requests = () => {
       const res = await axios.get(BASE_URL + "/user/requests/received", {withCredentials: true});
       
       dispatch(addRequestsData(res.data.data));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
+  const handleReview = async (status, _id) => {
+    try {
+       await axios.post(BASE_URL + '/request/review/' + status + "/" + _id, {}, {withCredentials: true} );
+      
+      dispatch(removeRequest(_id));
     } catch(err) {
       console.error(err);
     }
@@ -48,8 +58,14 @@ const Requests = () => {
                     </div>
                   </div>
                   <div className="card-actions justify-end mt-4">
-                    <button className="btn btn-primary">Accept</button>
-                    <button className="btn btn-secondary">Reject</button>
+                    <button 
+                      onClick={() => handleReview("accepted", request._id)}
+                      className="btn btn-primary">
+                          Accept</button>
+                    <button 
+                    onClick={() => handleReview("rejected", request._id)}
+                      className="btn btn-secondary">
+                          Reject</button>
                   </div>
                 </div>
               </div>
