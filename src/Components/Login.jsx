@@ -10,8 +10,11 @@ const Login = () => {
     const [email, setEmail] = useState("nani@gmail.com");
     const [password, setPassword] = useState("20Sravs02@");
     const [error, setError] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useState(true);
 
     const handleLogin = async () => {
         try {
@@ -25,13 +28,44 @@ const Login = () => {
             setError(err.response.data);
         }
     }
+
+    const handleSignUp = async () => {
+        try {
+            const res = await axios.post(BASE_URL + "/signup" , { firstName, lastName, email, password} , {withCredentials: true});
+            
+            dispatch(addUser(res.data.data));
+            navigate("/profile");
+        } catch(err) {
+            console.error(err);
+        }
+    }
+
+    
   return (
     <div className="flex justify-center mt-20">
         <div className="card bg-base-300 w-96 shadow-xl">
             <div className="card-body">
-                <h2 className="card-title">SignIn</h2>
+                <h2 className="card-title">{isLogin ? "SignIn" : "SignUp"}</h2>
                 <div>
                     <label className="form-control w-full max-w-xs">
+                    {!isLogin && <><div className="label">
+                        <span className="label-text">First Name</span>
+                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="Type here" 
+                        value={firstName} 
+                        onChange={(e)=> setFirstName(e.target.value)}
+                        className="input input-bordered w-full max-w-xs" />
+                        <div className="label">
+                        <span className="label-text">Last Name</span>
+                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="Type here" 
+                        value={lastName} 
+                        onChange={(e)=> setLastName(e.target.value)}
+                        className="input input-bordered w-full max-w-xs" /></>}
                     <div className="label">
                         <span className="label-text">Email ID</span>
                     </div>
@@ -54,7 +88,10 @@ const Login = () => {
                 </div>
                 <div className="card-actions justify-end mt-2">
                     <p className="text-red-600">{error}</p>
-                    <button type="button" className="btn btn-primary" onClick={()=> handleLogin()}>Login</button>
+                    <p className="cursor-pointer text-cyan-600" 
+                        onClick={() => setIsLogin(!isLogin)}>{isLogin ? "New to DevTinder? Create an account" : "Already have an account? please SignIn!"}</p>
+                    <button type="button" className="btn btn-primary" 
+                            onClick={()=> {isLogin ? handleLogin() : handleSignUp()}}>{isLogin ? "Login" : "SignUp"}</button>
                 </div>
             </div>
         </div>
