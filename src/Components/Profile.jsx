@@ -10,8 +10,8 @@ const Profile = () => {
   const userData = useSelector(store => store.User);
   const [firstName, setFirstName] = useState(userData?.firstName);
   const [lastName, setLastName] = useState(userData?.lastName);
-  const [age, setAge] = useState(userData?.age);
-  const [gender, setGender] = useState(userData?.gender);
+  const [age, setAge] = useState(userData.age || "");
+  const [gender, setGender] = useState(userData.gender || "");
   const [about, setAbout] = useState(userData?.about);
   const [photoUrl, setPhotUrl] = useState(userData?.photoUrl);
   const [saveToast , setSaveToast] = useState(false);

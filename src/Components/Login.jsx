@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
-    const [email, setEmail] = useState("nani@gmail.com");
-    const [password, setPassword] = useState("20Sravs02@");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -79,7 +79,7 @@ const Login = () => {
                         <span className="label-text">Password</span>
                     </div>
                     <input 
-                        type="text" 
+                        type="password" 
                         placeholder="Type here"
                         value={password} 
                         onChange={(e)=> setPassword(e.target.value)}
