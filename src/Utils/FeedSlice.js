@@ -9,9 +9,13 @@ const feedSlice = createSlice({
         },
         removeFeedDate: () => {
             return null;
+        },
+        removeUser: (state, action) => {
+            const newFeed = state.filter(user => user._id != action.payload);
+            return newFeed;
         }
     }
 });
 
-export const {addFeedData, removeFeedDate} = feedSlice.actions
+export const {addFeedData, removeFeedDate, removeUser} = feedSlice.actions
 export default feedSlice.reducer;
