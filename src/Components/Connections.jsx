@@ -3,10 +3,16 @@ import { BASE_URL } from "../Utils/constants";
 import axios from "axios";
 import { addConnectionsData } from "../Utils/ConnectionsSlice";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import generateConversationId from "../Utils/generateConnectionId";
+import { addMessages } from "../Utils/messageSlice";
 
 const Connections = () => {
   const dispatch = useDispatch();
   const connections = useSelector(store => store.Connections);
+  const userData = useSelector(store => store.User);
+  
+  const navigate = useNavigate();
 
   const fetchConnections = async () => {
     try {
@@ -16,6 +22,22 @@ const Connections = () => {
       console.error(err);
     }
   };
+  const handleChat = async (receiverId) => {
+    
+    try {
+      const res = await fetch(`http://localhost:5000/getMessages/${receiverId}`, {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json'},
+        credentials: 'include'
+      });
+      const data = await res.json();
+      const conversationId = generateConversationId(receiverId,userData._id);
+      dispatch(addMessages({conversationId, messages: data.data}));
+      navigate(`/chat/${userData._id}/${receiverId}`);
+    } catch(err) {
+      console.log(err.message);
+    }
+  }
 
   useEffect(() => {
     fetchConnections();
@@ -30,10 +52,10 @@ const Connections = () => {
       
       <div className="flex flex-col space-y-8 w-full max-w-md">
         {connections.map((connection) => {
-          const { firstName, lastName, age, gender, photoUrl, about } = connection;
+          const { firstName, lastName, age, gender, photoUrl, about, _id } = connection;
 
           return (
-            <div key={connection._id} className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div onClick={() => handleChat(_id) } key={connection._id} className="bg-white shadow-lg rounded-lg overflow-hidden">
               <div className="flex items-center p-5">
                 <img
                   className="w-24 h-24 rounded-full border-4 border-gray-200"

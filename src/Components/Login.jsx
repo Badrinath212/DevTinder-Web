@@ -23,7 +23,7 @@ const Login = () => {
                 password: password
             },{ withCredentials: true});
             dispatch(addUser(res.data));
-            navigate('/');
+            navigate('/feed');
         } catch(err) {
             setError(err.response.data);
         }
@@ -45,6 +45,7 @@ const Login = () => {
     <div className="flex justify-center mt-20">
         <div className="card bg-base-300 w-96 shadow-xl">
             <div className="card-body">
+                <form onSubmit={(e) => e.preventDefault()}>
                 <h2 className="card-title">{isLogin ? "SignIn" : "SignUp"}</h2>
                 <div>
                     <label className="form-control w-full max-w-xs">
@@ -83,6 +84,7 @@ const Login = () => {
                         placeholder="Type here"
                         value={password} 
                         onChange={(e)=> setPassword(e.target.value)}
+                        autoComplete="false"
                         className="input input-bordered w-full max-w-xs" />
                     </label>
                 </div>
@@ -90,9 +92,12 @@ const Login = () => {
                     <p className="text-red-600">{error}</p>
                     <p className="cursor-pointer text-cyan-600" 
                         onClick={() => setIsLogin(!isLogin)}>{isLogin ? "New to DevTinder? Create an account" : "Already have an account? please SignIn!"}</p>
-                    <button type="button" className="btn btn-primary" 
+                    <p className="cursor-pointer text-cyan-600  ml-20"
+                        onClick={() => navigate("/LoginHelp")}>Forgot Password?</p>
+                    <button type="button" className="btn btn-primary mt-10 items-center" 
                             onClick={()=> {isLogin ? handleLogin() : handleSignUp()}}>{isLogin ? "Login" : "SignUp"}</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>

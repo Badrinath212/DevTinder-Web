@@ -11,20 +11,23 @@ const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector(store => store.User);
-  const fetchUser = async () => {
-    if(userData) return;
+
+  const cookies = document.cookie.split("; ").find(row => row.startsWith('token='));
+  const token = cookies ? cookies.split("=")[1] : null;
+  
+  const fetchUser = async (token) => {
+    if(userData && !token) return;
     try {
+
       const res = await axios.get(BASE_URL+"/profile/view", {withCredentials: true});
+      
       dispatch(addUser(res.data));
-    } catch(err) {
-      if(err.status === 401 || err.status==400) {
-        navigate('/login')
-      }
-      console.error(err);
+    } catch {
+      navigate('/login');
     }
   }
   useEffect(()=>{
-    fetchUser();
+    fetchUser(token);
   },[]);
   return (
     <div>
