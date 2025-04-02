@@ -18,11 +18,12 @@ const Body = () => {
   const fetchUser = async (token) => {
     if(userData && !token) return;
     try {
-
+      console.log("hello");
       const res = await axios.get(BASE_URL+"/profile/view", {withCredentials: true});
       
       dispatch(addUser(res.data));
     } catch {
+      console.log("fetch calling..");
       navigate('/login');
     }
   }
