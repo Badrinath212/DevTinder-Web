@@ -1,9 +1,10 @@
 import { io } from "socket.io-client";
 import Cookies from "js-cookie";
+import { BASE_URL } from "../Utils/constants";
 
 const token = Cookies.get('token');
 
-const socket = io('http://localhost:5000', {
+const socket = io(BASE_URL, {
     auth: {
         token: token
     }

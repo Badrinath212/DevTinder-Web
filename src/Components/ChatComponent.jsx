@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import generateConversationId from '../Utils/generateConnectionId';
 import { addMessages, updateMessages } from '../Utils/messageSlice';
+import { BASE_URL } from '../Utils/constants';
 
 const Chat = () => {
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const Chat = () => {
     const conversationId = generateConversationId(receiverId, senderId);
 
     const fetchMessages = async () => {
-        const response = await fetch(`http://localhost:5000/getMessages/${receiverId}`, {
+        const response = await fetch(`${BASE_URL}/getMessages/${receiverId}`, {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-type': 'application/json' }

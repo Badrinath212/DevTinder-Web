@@ -25,7 +25,7 @@ const Connections = () => {
   const handleChat = async (receiverId) => {
     
     try {
-      const res = await fetch(`http://localhost:5000/getMessages/${receiverId}`, {
+      const res = await fetch(`${BASE_URL}/getMessages/${receiverId}`, {
         method: 'GET',
         headers: { 'Content-type': 'application/json'},
         credentials: 'include'
