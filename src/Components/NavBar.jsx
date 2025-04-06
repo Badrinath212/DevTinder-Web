@@ -21,7 +21,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-slate-900">
       <div className="flex-1">
-        <Link to={'/feed'} className="btn btn-ghost text-xl text-white">🧑🏻‍💻DevTinder</Link>
+        <Link to={user && '/feed'} className="btn btn-ghost text-xl text-white">🧑🏻‍💻DevTinder</Link>
       </div>
       <div className="text-white mx-6">
         {/* Conditionally render the user's first name if the user exists */}
